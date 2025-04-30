@@ -1,0 +1,16 @@
+# Sanal ortam
+lenv/
+
+# Derlenmiş Python dosyaları
+__pycache__/
+*.py[cod]
+
+# Veritabanı dosyası (SQLite kullanıyorsan)
+*.sqlite3
+
+# Ortam değişkenleri
+.env
+
+# IDE/editor klasörleri
+.vscode/
+.idea/
