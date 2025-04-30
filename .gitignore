@@ -5,7 +5,7 @@ lenv/
 __pycache__/
 *.py[cod]
 
-# Veritabanı dosyası (SQLite kullanıyorsan)
+# Veritabanı dosyası
 *.sqlite3
 
 # Ortam değişkenleri
