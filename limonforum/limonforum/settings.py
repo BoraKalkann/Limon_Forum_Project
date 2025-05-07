@@ -77,8 +77,12 @@ WSGI_APPLICATION = 'limonforum.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'djongo',
+        'NAME': 'limon_forum_db',  
+        'ENFORCE_SCHEMA': False,
+        'CLIENT': {
+            'host': 'mongodb+srv://limon:forumlimon123@limonforum.nmqvgkl.mongodb.net/limon_forum_db?retryWrites=true&w=majority'
+        }
     }
 }
 
