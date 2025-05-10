@@ -75,16 +75,19 @@ WSGI_APPLICATION = 'limonforum.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
+from decouple import config
+
 DATABASES = {
     'default': {
         'ENGINE': 'djongo',
-        'NAME': 'limon_forum_db',  
+        'NAME': config('MONGO_DB'),
         'ENFORCE_SCHEMA': False,
         'CLIENT': {
-            'host': 'mongodb+srv://limon:forumlimon123@limonforum.nmqvgkl.mongodb.net/limon_forum_db?retryWrites=true&w=majority'
+            'host': f"mongodb+srv://{config('MONGO_USERNAME')}:{config('MONGO_PASSWORD')}@{config('MONGO_HOST')}/{config('MONGO_DB')}?retryWrites=true&w=majority"
         }
     }
 }
+
 
 
 # Password validation
