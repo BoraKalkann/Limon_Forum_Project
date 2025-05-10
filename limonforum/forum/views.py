@@ -1,22 +1,22 @@
 from django.shortcuts import render
 
 def homePage(request):
-    return render(request, 'index.html')
+    return render(request, 'forum/index.html')
 
 def aboutPage(request):
-    return render(request, 'about.html')
+    return render(request, 'forum/about.html')
 
 def blogPage(request):
-    return render(request, 'blog.html')
+    return render(request, 'forum/blog.html')
 
 def categoryPage(request):
-    return render(request, 'category.html')
+    return render(request, 'forum/category.html')
 
 def contactPage(request):
-    return render(request, 'contact.html')
+    return render(request, 'forum/contact.html')
 
 def searchResultPage(request):
-    return render(request, 'search-result.html')
+    return render(request, 'forum/search-result.html')
 
 def singlePage(request):
-    return render(request, 'single.html')
+    return render(request, 'forum/single.html')
