@@ -330,6 +330,38 @@
     </div>
   </div>
 </section>
-<!-- End posts-entry -->
-
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    fetch("/api/games/")
+      .then(response => response.json())
+      .then(data => {
+        console.log("FreeToGame verileri:", data);
+      })
+      .catch(error => {
+        console.error("Veri alınırken hata oluştu:", error);
+      });
+  });
+</script> 
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    fetch("https://gutendex.com/books/")
+      .then(res => res.json())
+      .then(data => {
+        console.log("Klasik kitaplar:", data.results);
+      })
+      .catch(err => console.error("Hata:", err));
+  });
+</script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    fetch("https://ghibliapi.vercel.app/films")
+      .then(response => response.json())
+      .then(data => {
+        console.log("Studio Ghibli filmleri:", data);
+      })
+      .catch(error => {
+        console.error("Veri alınırken hata oluştu:", error);
+      });
+  });
+</script>
 {% endblock %}
