@@ -1,4 +1,6 @@
 from django.shortcuts import render
+import requests
+from django.http import JsonResponse
 
 def homePage(request):
     return render(request, 'forum/index.html')
@@ -20,3 +22,12 @@ def searchResultPage(request):
 
 def singlePage(request):
     return render(request, 'forum/single.html')
+
+# views.py
+import requests
+from django.http import JsonResponse
+
+def games_proxy(request):
+    response = requests.get("https://www.freetogame.com/api/games")
+    data = response.json()
+    return JsonResponse(data, safe=False)
