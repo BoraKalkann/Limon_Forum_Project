@@ -10,5 +10,7 @@ urlpatterns = [
     path('contact', views.contactPage, name='contactPage'),
     path('search-result', views.searchResultPage, name='searchResultPage'),
     path('single', views.singlePage, name='singlePage'),
-    path("api/games/", games_proxy, name="games_proxy")
+    path("api/games/", games_proxy, name="games_proxy"),
+    path('login/', views.login_view, name='loginPage'),
+    path('register/', views.register_view, name='registerPage'),
 ]

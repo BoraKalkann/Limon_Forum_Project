@@ -37,19 +37,17 @@
                                     </li>
                                 </ul>
                             </li>
-                            <li><a href="{% url 'categoryPage' %}">Culture</a></li>
-                            <li><a href="{% url 'categoryPage' %}">Business</a></li>
-                            <li><a href="{% url 'categoryPage' %}">Politics</a></li>
+                            <li><a href="{% url 'categoryPage' %}">Oyunlar</a></li>
+                            <li><a href="{% url 'categoryPage' %}">Filmler</a></li>
+                            <li><a href="{% url 'categoryPage' %}">Kitaplar</a></li>
                         </ul>
                     </div>
                     <div class="col-2 text-end">
-                        <a href="#" class="burger ms-auto float-end site-menu-toggle js-menu-toggle d-inline-block d-lg-none light">
-                            <span></span>
-                        </a>
-                        <form action="#" class="search-form d-none d-lg-inline-block">
-                            <input type="text" class="form-control" placeholder="Search...">
-                            <span class="bi-search"></span>
-                        </form>
+                         <!-- Login & Register Buttons -->                        <div class="d-none d-lg-inline-block mt-2">
+                            <a href="{% url 'loginPage' %}" class="btn btn-outline-primary btn-sm me-2">Giriş</a>
+                            <a href="{% url 'registerPage' %}" class="btn btn-primary btn-sm">Kaydol</a>
+                        </div>
+                        <!-- End Login & Register Buttons -->
                     </div>
                 </div>
             </div>

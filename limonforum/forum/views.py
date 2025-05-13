@@ -22,7 +22,10 @@ def searchResultPage(request):
 
 def singlePage(request):
     return render(request, 'forum/single.html')
-
+def login_view(request):
+    return render(request, 'forum/login.html')    
+def register_view(request):
+    return render(request, 'forum/register.html')
 # views.py
 import requests
 from django.http import JsonResponse
