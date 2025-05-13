@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="d-flex justify-content-center align-items-center min-vh-100 bg-light">
+    <div class="card shadow-lg p-5" style="width: 100%; max-width: 500px;">
+        <h2 class="text-center mb-4">Kayıt Ol <span class="text-primary">LimonForum</span></h2>
+        
+        <form method="POST" id="registerForm" onsubmit="return validateForm()">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="username" class="form-label">Kullanıcı Adı</label>
+                <input type="text" class="form-control" id="username" name="username" required>
+            </div>
+            
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-control" id="email" name="email" required>
+            </div>
+            
+            <div class="mb-3">
+                <label for="password1" class="form-label">Şifre</label>
+                <input type="password" class="form-control" id="password1" name="password1" required oninput="checkPasswords()">
+                <div class="invalid-feedback">
+                    Şifreler eşleşmiyor!
+                </div>
+            </div>
+            
+            <div class="mb-4">
+                <label for="password2" class="form-label">Şifreyi Tekrar Girin</label>
+                <input type="password" class="form-control" id="password2" name="password2" required oninput="checkPasswords()">
+                <div class="invalid-feedback">
+                    Şifreler eşleşmiyor!
+                </div>
+            </div>
+
+            <div class="alert alert-danger" id="passwordError" style="display: none;">
+                Şifreler eşleşmiyor!
+            </div>
+
+            <div class="d-grid">
+                <button type="submit" class="btn btn-primary" id="submitBtn">Kayıt Ol</button>
+            </div>
+        </form>
+
+        <div class="text-center mt-4">
+            <p class="text-muted">
+                Zaten hesabınız var mı? 
+                <a href="{% url 'loginPage' %}" class="text-primary text-decoration-none">Giriş Yap</a>
+            </p>
+        </div>
+    </div>
+</div>
+
+<script>
+function checkPasswords() {
+    const password1 = document.getElementById('password1');
+    const password2 = document.getElementById('password2');
+    const passwordError = document.getElementById('passwordError');
+    const submitBtn = document.getElementById('submitBtn');
+
+    if (password1.value !== password2.value) {
+        password1.classList.add('is-invalid');
+        password2.classList.add('is-invalid');
+        passwordError.style.display = 'block';
+        submitBtn.disabled = true;
+    } else {
+        password1.classList.remove('is-invalid');
+        password2.classList.remove('is-invalid');
+        passwordError.style.display = 'none';
+        submitBtn.disabled = false;
+    }
+}
+
+function validateForm() {
+    const password1 = document.getElementById('password1').value;
+    const password2 = document.getElementById('password2').value;
+    
+    if (password1 !== password2) {
+        document.getElementById('passwordError').style.display = 'block';
+        return false;
+    }
+    return true;
+}
+</script>
+{% endblock %}
