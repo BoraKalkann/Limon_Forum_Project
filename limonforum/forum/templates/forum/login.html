@@ -7,20 +7,21 @@
     <div class="card shadow-lg p-5" style="width: 100%; max-width: 1000px;">
       <h2 class="text-center mb-4">Kullanıcı Girişi  <span class="text-primary">LimonForum</span></h2>
 
-      <form>
+      <form method='POST'>
+        {% csrf_token %}
         <div class="mb-3">
           <label for="username" class="form-label">Kullanıcı İsmi</label>
-          <input type="text" id="username" class="form-control" placeholder="Kullanıcı adınızı girin">
+          <input type="text" id="username" name="username" class="form-control" placeholder="Kullanıcı adınızı girin">
         </div>
         <div class="mb-4">
           <label for="password" class="form-label">Şifre</label>
-          <input type="password" id="password" class="form-control" placeholder="Şifrenizi girin">
+          <input type="password" id="password" name="password" class="form-control" placeholder="Şifrenizi girin">
         </div>
-        <button class="btn btn-primary w-100" disabled>Giriş Yap</button>
+        <button class="btn btn-primary w-100">Giriş Yap</button>
       </form>
 
       <div class="text-center mt-3">
-        <small class="text-muted">Hesabınız yok mu? <a href="#">Kaydol</a></small>
+        <small class="text-muted">Hesabınız yok mu? <a href="{% url 'registerPage' %}">Kaydol</a></small>
       </div>
     </div>
   </div>
