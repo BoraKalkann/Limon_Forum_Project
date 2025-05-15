@@ -1,9 +1,9 @@
-from pyexpat.errors import messages
 from django.shortcuts import redirect, render
 import requests
-from django.http import JsonResponse
+from django.http import Http404
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate,login
+from decouple import config
 
 def homePage(request):
     return render(request, 'forum/index.html')
@@ -23,8 +23,20 @@ def contactPage(request):
 def searchResultPage(request):
     return render(request, 'forum/search-result.html')
 
-def singlePage(request):
-    return render(request, 'forum/single.html')
+def singlePage(request, slug):
+    
+    api_key = config('RAWG_API_KEY')
+    url = f"https://api.rawg.io/api/games/{slug}?key={api_key}"
+
+    response = requests.get(url)
+
+    if response.status_code != 200:
+        raise Http404("Game is not found.")
+
+    game = response.json()
+
+    return render(request, 'forum/single.html', {'game': game})
+
 
 def login_view(request):
     if request.method == 'POST':
@@ -58,7 +70,3 @@ def register_view(request):
         return redirect('loginPage')  
     return render(request, 'forum/register.html') 
 
-def games_proxy():
-    response = requests.get("https://www.freetogame.com/api/games")
-    data = response.json()
-    return JsonResponse(data, safe=False)
