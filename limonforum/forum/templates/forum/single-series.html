@@ -1,0 +1,338 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<div class="site-cover site-cover-sm same-height overlay single-page" style="background-image: url('https://image.tmdb.org/t/p/w1280{{ series.backdrop_path }}');">
+  <div class="container">
+    <div class="row same-height justify-content-center">
+      <div class="col-md-6">
+        <div class="post-entry text-center">
+          <h1 class="mb-4">{{ series.name }}</h1>
+          <div class="post-meta align-items-center text-center">
+            {% if series.production_companies.0.logo_path %}
+              <figure class="author-figure mb-0 me-3 d-inline-block"><img src="https://image.tmdb.org/t/p/w1280{{series.production_companies.0.logo_path}}" alt="Image" class="img-fluid"></figure>
+            {% endif %}
+            <span class="d-inline-block mt-1">{{series.production_companies.0.name}}</span>
+            <span>&nbsp;-&nbsp; {{series.first_air_date}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section class="section">
+  <div class="container">
+
+    <div class="row blog-entries element-animate">
+
+      <div class="col-md-12 col-lg-8 main-content">
+
+        <div class="post-content-body">
+          <p>{{series.overview}}</p>
+          <div class="row my-4">
+            <div class="col-md-12 mb-4">
+              <img src="https://image.tmdb.org/t/p/w1280{{series.poster_path}}" alt="Image placeholder" class="img-fluid rounded">
+            </div>
+            
+          </div>
+          
+        </div>
+
+
+        <div class="pt-5">
+          <p>Categories:  <a href="#">Food</a>, <a href="#">Travel</a>  Tags: <a href="#">#manila</a>, <a href="#">#asia</a></p>
+        </div>
+
+
+        <div class="pt-5 comment-wrap">
+          <h3 class="mb-5 heading">6 Comments</h3>
+          <ul class="comment-list">
+            <li class="comment">
+              <div class="vcard">
+                <img src="{% static "assets/images/person_1.jpg" %}" alt="Image placeholder">
+              </div>
+              <div class="comment-body">
+                <h3>Jean Doe</h3>
+                <div class="meta">January 9, 2018 at 2:21pm</div>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur quidem laborum necessitatibus, ipsam impedit vitae autem, eum officia, fugiat saepe enim sapiente iste iure! Quam voluptas earum impedit necessitatibus, nihil?</p>
+                <p><a href="#" class="reply rounded">Reply</a></p>
+              </div>
+            </li>
+
+            <li class="comment">
+              <div class="vcard">
+                <img src="{% static "assets/images/person_2.jpg" %}" alt="Image placeholder">
+              </div>
+              <div class="comment-body">
+                <h3>Jean Doe</h3>
+                <div class="meta">January 9, 2018 at 2:21pm</div>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur quidem laborum necessitatibus, ipsam impedit vitae autem, eum officia, fugiat saepe enim sapiente iste iure! Quam voluptas earum impedit necessitatibus, nihil?</p>
+                <p><a href="#" class="reply rounded">Reply</a></p>
+              </div>
+
+              <ul class="children">
+                <li class="comment">
+                  <div class="vcard">
+                    <img src="{% static "assets/images/person_3.jpg" %}" alt="Image placeholder">
+                  </div>
+                  <div class="comment-body">
+                    <h3>Jean Doe</h3>
+                    <div class="meta">January 9, 2018 at 2:21pm</div>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur quidem laborum necessitatibus, ipsam impedit vitae autem, eum officia, fugiat saepe enim sapiente iste iure! Quam voluptas earum impedit necessitatibus, nihil?</p>
+                    <p><a href="#" class="reply rounded">Reply</a></p>
+                  </div>
+
+
+                  <ul class="children">
+                    <li class="comment">
+                      <div class="vcard">
+                        <img src="{% static "assets/images/person_4.jpg" %}" alt="Image placeholder">
+                      </div>
+                      <div class="comment-body">
+                        <h3>Jean Doe</h3>
+                        <div class="meta">January 9, 2018 at 2:21pm</div>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur quidem laborum necessitatibus, ipsam impedit vitae autem, eum officia, fugiat saepe enim sapiente iste iure! Quam voluptas earum impedit necessitatibus, nihil?</p>
+                        <p><a href="#" class="reply rounded">Reply</a></p>
+                      </div>
+
+                      <ul class="children">
+                        <li class="comment">
+                          <div class="vcard">
+                            <img src="{% static "assets/images/person_5.jpg" %}" alt="Image placeholder">
+                          </div>
+                          <div class="comment-body">
+                            <h3>Jean Doe</h3>
+                            <div class="meta">January 9, 2018 at 2:21pm</div>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur quidem laborum necessitatibus, ipsam impedit vitae autem, eum officia, fugiat saepe enim sapiente iste iure! Quam voluptas earum impedit necessitatibus, nihil?</p>
+                            <p><a href="#" class="reply rounded">Reply</a></p>
+                          </div>
+                        </li>
+                      </ul>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
+
+            <li class="comment">
+              <div class="vcard">
+                <img src="{% static "assets/images/person_1.jpg" %}" alt="Image placeholder">
+              </div>
+              <div class="comment-body">
+                <h3>Jean Doe</h3>
+                <div class="meta">January 9, 2018 at 2:21pm</div>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur quidem laborum necessitatibus, ipsam impedit vitae autem, eum officia, fugiat saepe enim sapiente iste iure! Quam voluptas earum impedit necessitatibus, nihil?</p>
+                <p><a href="#" class="reply rounded">Reply</a></p>
+              </div>
+            </li>
+          </ul>
+          <!-- END comment-list -->
+
+          <div class="comment-form-wrap pt-5">
+            <h3 class="mb-5">Leave a comment</h3>
+            <form action="#" class="p-5 bg-light">
+              <div class="form-group">
+                <label for="name">Name *</label>
+                <input type="text" class="form-control" id="name">
+              </div>
+              <div class="form-group">
+                <label for="email">Email *</label>
+                <input type="email" class="form-control" id="email">
+              </div>
+              <div class="form-group">
+                <label for="website">Website</label>
+                <input type="url" class="form-control" id="website">
+              </div>
+
+              <div class="form-group">
+                <label for="message">Message</label>
+                <textarea name="" id="message" cols="30" rows="10" class="form-control"></textarea>
+              </div>
+              <div class="form-group">
+                <input type="submit" value="Post Comment" class="btn btn-primary">
+              </div>
+
+            </form>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- END main-content -->
+
+      <div class="col-md-12 col-lg-4 sidebar">
+        <div class="sidebar-box search-form-wrap">
+          <form action="#" class="sidebar-search-form">
+            <span class="bi-search"></span>
+            <input type="text" class="form-control" id="s" placeholder="Type a keyword and hit enter">
+          </form>
+        </div>
+        <!-- END sidebar-box -->
+        <div class="sidebar-box">
+          <h3 class="heading">Popular Posts</h3>
+          <div class="post-entry-sidebar">
+            <ul>
+              <li>
+                <a href="">
+                  <img src="{% static "assets/images/img_1_sq.jpg" %}" alt="Image placeholder" class="me-4 rounded">
+                  <div class="text">
+                    <h4>There’s a Cool New Way for Men to Wear Socks and Sandals</h4>
+                    <div class="post-meta">
+                      <span class="mr-2">March 15, 2018 </span>
+                    </div>
+                  </div>
+                </a>
+              </li>
+              <li>
+                <a href="">
+                  <img src="{% static "assets/images/img_2_sq.jpg" %}" alt="Image placeholder" class="me-4 rounded">
+                  <div class="text">
+                    <h4>There’s a Cool New Way for Men to Wear Socks and Sandals</h4>
+                    <div class="post-meta">
+                      <span class="mr-2">March 15, 2018 </span>
+                    </div>
+                  </div>
+                </a>
+              </li>
+              <li>
+                <a href="">
+                  <img src="{% static "assets/images/img_3_sq.jpg" %}" alt="Image placeholder" class="me-4 rounded">
+                  <div class="text">
+                    <h4>There’s a Cool New Way for Men to Wear Socks and Sandals</h4>
+                    <div class="post-meta">
+                      <span class="mr-2">March 15, 2018 </span>
+                    </div>
+                  </div>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <!-- END sidebar-box -->
+
+        <div class="sidebar-box">
+          <h3 class="heading">Categories</h3>
+          <ul class="categories">
+            <li><a href="#">Food <span>(12)</span></a></li>
+            <li><a href="#">Travel <span>(22)</span></a></li>
+            <li><a href="#">Lifestyle <span>(37)</span></a></li>
+            <li><a href="#">Business <span>(42)</span></a></li>
+            <li><a href="#">Adventure <span>(14)</span></a></li>
+          </ul>
+        </div>
+        <!-- END sidebar-box -->
+
+        <div class="sidebar-box">
+          <h3 class="heading">Tags</h3>
+          <ul class="tags">
+            <li><a href="#">Travel</a></li>
+            <li><a href="#">Adventure</a></li>
+            <li><a href="#">Food</a></li>
+            <li><a href="#">Lifestyle</a></li>
+            <li><a href="#">Business</a></li>
+            <li><a href="#">Freelancing</a></li>
+            <li><a href="#">Travel</a></li>
+            <li><a href="#">Adventure</a></li>
+            <li><a href="#">Food</a></li>
+            <li><a href="#">Lifestyle</a></li>
+            <li><a href="#">Business</a></li>
+            <li><a href="#">Freelancing</a></li>
+          </ul>
+        </div>
+      </div>
+      <!-- END sidebar -->
+
+    </div>
+  </div>
+</section>
+
+
+<!-- Start posts-entry -->
+<section class="section posts-entry posts-entry-sm bg-light">
+  <div class="container">
+    <div class="row mb-4">
+      <div class="col-12 text-uppercase text-black">More Blog Posts</div>
+    </div>
+    <div class="row">
+      <div class="col-md-6 col-lg-3">
+        <div class="blog-entry">
+          <a href="{% url "singleGamePage" slug='valorant' %}" class="img-link">
+            <img src="{% static "assets/images/img_1_horizontal.jpg" %}" alt="Image" class="img-fluid">
+          </a>
+          <span class="date">Apr. 14th, 2022</span>
+          <h2><a href="{% url "singleGamePage" slug='valorant' %}">Thought you loved Python? Wait until you meet Rust</a></h2>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+          <p><a href="#" class="read-more">Continue Reading</a></p>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-3">
+        <div class="blog-entry">
+          <a href="{% url "singleGamePage" slug='valorant' %}" class="img-link">
+            <img src="{% static "assets/images/img_2_horizontal.jpg" %}" alt="Image" class="img-fluid">
+          </a>
+          <span class="date">Apr. 14th, 2022</span>
+          <h2><a href="{% url "singleGamePage" slug='valorant' %}">Startup vs corporate: What job suits you best?</a></h2>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+          <p><a href="#" class="read-more">Continue Reading</a></p>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-3">
+        <div class="blog-entry">
+          <a href="{% url "singleGamePage" slug='valorant' %}" class="img-link">
+            <img src="{% static "assets/images/img_3_horizontal.jpg" %}" alt="Image" class="img-fluid">
+          </a>
+          <span class="date">Apr. 14th, 2022</span>
+          <h2><a href="{% url "singleGamePage" slug='valorant' %}">UK sees highest inflation in 30 years</a></h2>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+          <p><a href="#" class="read-more">Continue Reading</a></p>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-3">
+        <div class="blog-entry">
+          <a href="{% url "singleGamePage" slug='valorant' %}" class="img-link">
+            <img src="{% static "assets/images/img_4_horizontal.jpg" %}" alt="Image" class="img-fluid">
+          </a>
+          <span class="date">Apr. 14th, 2022</span>
+          <h2><a href="{% url "singleGamePage" slug='valorant' %}">Don’t assume your user data in the cloud is safe</a></h2>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+          <p><a href="#" class="read-more">Continue Reading</a></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<script>
+  fetch('https://api.rawg.io/api/games?key=5f0e7622a1f344d6ae8701e0dcf06538')
+  .then(response => response.json())
+  .then(data => {
+    console.log('RAWG API Verisi:', data);
+  })
+  .catch(error => {
+    console.error('Bir hata oluştu:', error);
+  });
+</script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    fetch("https://gutendex.com/books/")
+      .then(res => res.json())
+      .then(data => {
+        console.log("Klasik kitaplar:", data.results);
+      })
+      .catch(err => console.error("Hata:", err));
+  });
+</script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    fetch("https://ghibliapi.vercel.app/films")
+      .then(response => response.json())
+      .then(data => {
+        console.log("Studio Ghibli filmleri:", data);
+      })
+      .catch(error => {
+        console.error("Veri alınırken hata oluştu:", error);
+      });
+  });
+</script>
+{% endblock %}

@@ -3,16 +3,18 @@
 
 {% block content %}
 
-<div class="site-cover site-cover-sm same-height overlay single-page" style="background-image: url('{{game.background_image}}');">
+<div class="site-cover site-cover-sm same-height overlay single-page" style="background-image: url('https://image.tmdb.org/t/p/w1280{{ movie.backdrop_path }}');">
   <div class="container">
     <div class="row same-height justify-content-center">
       <div class="col-md-6">
         <div class="post-entry text-center">
-          <h1 class="mb-4">{{ game.name }}</h1>
+          <h1 class="mb-4">{{ movie.title }}</h1>
           <div class="post-meta align-items-center text-center">
-            <figure class="author-figure mb-0 me-3 d-inline-block"><img src="{{game.developers.0.image_background}}" alt="Image" class="img-fluid"></figure>
-            <span class="d-inline-block mt-1">{{game.developers.0.name}}</span>
-            <span>&nbsp;-&nbsp; {{game.released}}</span>
+            {% if movie.production_companies.0.logo_path %}
+              <figure class="author-figure mb-0 me-3 d-inline-block"><img src="https://image.tmdb.org/t/p/w1280{{movie.production_companies.0.logo_path}}" alt="Image" class="img-fluid"></figure>
+            {% endif %}
+            <span class="d-inline-block mt-1">{{movie.production_companies.0.name}}</span>
+            <span>&nbsp;-&nbsp; {{movie.release_date}}</span>
           </div>
         </div>
       </div>
@@ -28,17 +30,13 @@
       <div class="col-md-12 col-lg-8 main-content">
 
         <div class="post-content-body">
-          <p>{{game.description_raw}}</p>
+          <p>{{movie.overview}}</p>
           <div class="row my-4">
             <div class="col-md-12 mb-4">
-              <img src="{{game.background_image_additional}}" alt="Image placeholder" class="img-fluid rounded">
-            </div>
-            <div class="col-md-12 mb-4">
-              <img src="{{game.publishers.0.image_background}}" alt="Image placeholder" class="img-fluid rounded">
+              <img src="https://image.tmdb.org/t/p/w1280{{movie.poster_path}}" alt="Image placeholder" class="img-fluid rounded">
             </div>
             
           </div>
-          <p>Quibusdam autem, quas molestias recusandae aperiam molestiae modi qui ipsam vel. Placeat tenetur veritatis tempore quos impedit dicta, error autem, quae sint inventore ipsa quidem. Quo voluptate quisquam reiciendis, minus, animi minima eum officia doloremque repellat eos, odio doloribus cum.</p>
           
         </div>
 
@@ -173,23 +171,6 @@
         </div>
         <!-- END sidebar-box -->
         <div class="sidebar-box">
-          <div class="bio text-center">
-            <img src="{% static "assets/images/person_2.jpg" %}" alt="Image Placeholder" class="img-fluid mb-3">
-            <div class="bio-body">
-              <h2>Hannah Anderson</h2>
-              <p class="mb-4">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Exercitationem facilis sunt repellendus excepturi beatae porro debitis voluptate nulla quo veniam fuga sit molestias minus.</p>
-              <p><a href="#" class="btn btn-primary btn-sm rounded px-2 py-2">Read my bio</a></p>
-              <p class="social">
-                <a href="#" class="p-2"><span class="fa fa-facebook"></span></a>
-                <a href="#" class="p-2"><span class="fa fa-twitter"></span></a>
-                <a href="#" class="p-2"><span class="fa fa-instagram"></span></a>
-                <a href="#" class="p-2"><span class="fa fa-youtube-play"></span></a>
-              </p>
-            </div>
-          </div>
-        </div>
-        <!-- END sidebar-box -->  
-        <div class="sidebar-box">
           <h3 class="heading">Popular Posts</h3>
           <div class="post-entry-sidebar">
             <ul>
@@ -277,44 +258,44 @@
     <div class="row">
       <div class="col-md-6 col-lg-3">
         <div class="blog-entry">
-          <a href="{% url "singlePage" slug='valorant' %}" class="img-link">
+          <a href="{% url "singleGamePage" slug='valorant' %}" class="img-link">
             <img src="{% static "assets/images/img_1_horizontal.jpg" %}" alt="Image" class="img-fluid">
           </a>
           <span class="date">Apr. 14th, 2022</span>
-          <h2><a href="{% url "singlePage" slug='valorant' %}">Thought you loved Python? Wait until you meet Rust</a></h2>
+          <h2><a href="{% url "singleGamePage" slug='valorant' %}">Thought you loved Python? Wait until you meet Rust</a></h2>
           <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
           <p><a href="#" class="read-more">Continue Reading</a></p>
         </div>
       </div>
       <div class="col-md-6 col-lg-3">
         <div class="blog-entry">
-          <a href="{% url "singlePage" slug='valorant' %}" class="img-link">
+          <a href="{% url "singleGamePage" slug='valorant' %}" class="img-link">
             <img src="{% static "assets/images/img_2_horizontal.jpg" %}" alt="Image" class="img-fluid">
           </a>
           <span class="date">Apr. 14th, 2022</span>
-          <h2><a href="{% url "singlePage" slug='valorant' %}">Startup vs corporate: What job suits you best?</a></h2>
+          <h2><a href="{% url "singleGamePage" slug='valorant' %}">Startup vs corporate: What job suits you best?</a></h2>
           <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
           <p><a href="#" class="read-more">Continue Reading</a></p>
         </div>
       </div>
       <div class="col-md-6 col-lg-3">
         <div class="blog-entry">
-          <a href="{% url "singlePage" slug='valorant' %}" class="img-link">
+          <a href="{% url "singleGamePage" slug='valorant' %}" class="img-link">
             <img src="{% static "assets/images/img_3_horizontal.jpg" %}" alt="Image" class="img-fluid">
           </a>
           <span class="date">Apr. 14th, 2022</span>
-          <h2><a href="{% url "singlePage" slug='valorant' %}">UK sees highest inflation in 30 years</a></h2>
+          <h2><a href="{% url "singleGamePage" slug='valorant' %}">UK sees highest inflation in 30 years</a></h2>
           <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
           <p><a href="#" class="read-more">Continue Reading</a></p>
         </div>
       </div>
       <div class="col-md-6 col-lg-3">
         <div class="blog-entry">
-          <a href="{% url "singlePage" slug='valorant' %}" class="img-link">
+          <a href="{% url "singleGamePage" slug='valorant' %}" class="img-link">
             <img src="{% static "assets/images/img_4_horizontal.jpg" %}" alt="Image" class="img-fluid">
           </a>
           <span class="date">Apr. 14th, 2022</span>
-          <h2><a href="{% url "singlePage" slug='valorant' %}">Don’t assume your user data in the cloud is safe</a></h2>
+          <h2><a href="{% url "singleGamePage" slug='valorant' %}">Don’t assume your user data in the cloud is safe</a></h2>
           <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
           <p><a href="#" class="read-more">Continue Reading</a></p>
         </div>
