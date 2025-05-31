@@ -5,9 +5,116 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate,login
 from decouple import config
 import pprint
+import random
+import re
+
+import random
+
+def slugify(value):
+    # Türkçe karakterleri Latin harflerine çevir
+    turkish_map = str.maketrans(
+        "çğıöşüÇĞİÖŞÜ",
+        "cgiosuCGIOSU"
+    )
+    value = str(value).translate(turkish_map)
+    value = value.strip().lower()
+    value = re.sub(r'[^a-z0-9\s-]', '', value)
+    value = re.sub(r'[\s]+', '-', value)
+    return value
 
 def homePage(request):
-    return render(request, 'forum/index.html')
+    game_api_key = config('RAWG_API_KEY')
+    # 20 popüler oyunu çekiyoruz
+    games_url = f"https://api.rawg.io/api/games?key={game_api_key}&page_size=20"
+    response = requests.get(games_url)
+    if response.status_code != 200:
+        raise Http404("Oyunlar bulunamadı.")
+    all_games = response.json().get('results', [])
+
+    # Rastgele 6 oyun seçiyoruz
+    games = random.sample(all_games, 6) if len(all_games) >= 6 else all_games
+
+    books_url = "https://www.googleapis.com/books/v1/volumes?q=subject:fiction&langRestrict=en&maxResults=20&orderBy=relevance"
+    response = requests.get(books_url)
+    if response.status_code != 200:
+        raise Http404("Kitaplar bulunamadı.")
+
+    data = response.json()
+    items = data.get("items", [])
+
+    if not items:
+        raise Http404("Kitaplar bulunamadı.")
+
+    # Sadece ilk 6 kitabı alıyoruz ve slug ekliyoruz
+    books = []
+    for item in items[:6]:
+        info = item.get("volumeInfo", {})
+        title = info.get("title", "")
+        if title:  # Sadece başlığı olan kitaplar
+            info["slug"] = slugify(title)
+            books.append(info)
+
+    pprint.pprint(books)
+    tmdb_token = config('TMDB_API_KEY')
+    movies_url = "https://api.themoviedb.org/3/movie/popular?language=en-US&page=1"
+    headers = {
+        "Authorization": f"Bearer {tmdb_token}",
+        "accept": "application/json"
+    }
+    response = requests.get(movies_url, headers=headers)
+    if response.status_code != 200:
+        raise Http404("Filmler bulunamadı.")
+
+    data = response.json()
+    items = data.get("results", [])
+
+    if not items:
+        raise Http404("Filmler bulunamadı.")
+
+    # Sadece ilk 9 filmi alıyoruz ve slug ekliyoruz
+    movies = []
+    for item in items[:9]:
+        title = item.get("title", "")
+        if title:
+            item["slug"] = slugify(title)
+            # TMDB poster_path'ı tam URL'ye çevir
+            if item.get("poster_path"):
+                item["poster_url"] = f"https://image.tmdb.org/t/p/w500{item['poster_path']}"
+            else:
+                item["poster_url"] = ""  # veya varsayılan bir görsel yolu
+            movies.append(item)
+
+    pprint.pprint(movies)
+
+    tmdb_token = config('TMDB_API_KEY')
+    series_url = "https://api.themoviedb.org/3/tv/popular?language=en-US&page=1"
+    headers = {
+        "Authorization": f"Bearer {tmdb_token}",
+        "accept": "application/json"
+    }
+    response = requests.get(series_url, headers=headers)
+    if response.status_code != 200:
+        raise Http404("Diziler bulunamadı.")
+
+    data = response.json()
+    items = data.get("results", [])
+
+    if not items:
+        raise Http404("Diziler bulunamadı.")
+
+    # Sadece ilk 4 diziyi alıyoruz ve slug ekliyoruz
+    series = []
+    for item in items[:4]:
+        name = item.get("name", "")
+        if name:
+            item["slug"] = slugify(name)
+            if item.get("poster_path"):
+                item["poster_url"] = f"https://image.tmdb.org/t/p/w500{item['poster_path']}"
+            else:
+                item["poster_url"] = ""
+            series.append(item)
+
+    return render(request, 'forum/index.html', {'games': games, 'books': books, 'movies': movies, 'series': series})
 
 def aboutPage(request):
     return render(request, 'forum/about.html')
@@ -139,5 +246,5 @@ def register_view(request):
         )
         user.save()
         return redirect('loginPage')  
-    return render(request, 'forum/register.html') 
+    return render(request, 'forum/register.html')
 
