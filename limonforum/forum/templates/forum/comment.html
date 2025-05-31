@@ -1,0 +1,23 @@
+{% load static %}
+
+<li class="comment">
+  <div class="vcard">
+    <img src="{% static 'assets/images/person_1.jpg' %}" alt="User">
+  </div>
+  <div class="comment-body">
+    <h3>{{ comment.user.username }}</h3>
+    <div class="meta">{{ comment.created_at|date:"F j, Y H:i" }}</div>
+    <p>{{ comment.content }}</p>
+    <p>
+      <a href="#" class="reply rounded" data-comment-id="{{ comment.id }}">Reply</a>
+    </p>
+  </div>
+
+  {% if comment.replies.all %}
+    <ul class="children">
+      {% for reply in comment.replies.all %}
+        {% include "forum/comment.html" with comment=reply %}
+      {% endfor %}
+    </ul>
+  {% endif %}
+</li>
