@@ -4,6 +4,8 @@ from django.http import Http404
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate,login
 from decouple import config
+from .models import GameComment
+from .forms import GameCommentForm
 import pprint
 import random
 import re
@@ -188,7 +190,6 @@ def singleMoviePage(request, slug):
     return render(request, 'forum/single-movie.html', {'movie': movie})
 
 def singleGamePage(request, slug):
-
     game_api_key = config('RAWG_API_KEY')
     game_url = f"https://api.rawg.io/api/games/{slug}?key={game_api_key}"
     response = requests.get(game_url)
@@ -196,7 +197,23 @@ def singleGamePage(request, slug):
         raise Http404("Game is not found.")
     game = response.json()
 
-    return render(request, 'forum/single-game.html', {'game': game})
+    comments = GameComment.objects.filter(game_slug=slug, parent__isnull=True).order_by('-created_at')
+    form = GameCommentForm()
+
+    if request.method == 'POST':
+        form = GameCommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.user = request.user
+            comment.game_slug = slug
+            comment.save()
+            return redirect('singleGamePage', slug=slug)
+
+    return render(request, 'forum/single-game.html', {
+        'game': game,
+        'comments': comments,
+        'form': form
+    })
 
 def singleBookPage(request, slug):
 
