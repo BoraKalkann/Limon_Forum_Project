@@ -4,8 +4,8 @@ from django.http import Http404
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate,login
 from decouple import config
-from .models import GameComment
-from .forms import GameCommentForm
+from .models import Comment
+from .forms import CommentForm
 import pprint
 import random
 import re
@@ -134,60 +134,86 @@ def searchResultPage(request):
     return render(request, 'forum/search-result.html')
 
 def singleSeriesPage(request, slug):
-    
     tmdb_token = config('TMDB_API_KEY')
-
     search_url = f"https://api.themoviedb.org/3/search/tv?query={slug}&language=tr-TR"
     headers = {
         "Authorization": f"Bearer {tmdb_token}",
         "accept": "application/json"
     }
+
     search_response = requests.get(search_url, headers=headers)
     if search_response.status_code != 200:
         raise Http404("Dizi bulunamadı.")
-
     search_results = search_response.json().get("results")
     if not search_results:
         raise Http404("Dizi bulunamadı.")
 
     tv_id = search_results[0]["id"]
-
     detail_url = f"https://api.themoviedb.org/3/tv/{tv_id}?language=tr-TR"
     detail_response = requests.get(detail_url, headers=headers)
     if detail_response.status_code != 200:
         raise Http404("Dizi detayı alınamadı.")
-
     series = detail_response.json()
 
-    return render(request, 'forum/single-series.html', {'series': series})
+    comments = Comment.objects.filter(content_type='series', slug=slug, parent__isnull=True).order_by('-created_at')
+    form = CommentForm()
+
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.user = request.user
+            comment.content_type = 'series'
+            comment.slug = slug
+            comment.save()
+            return redirect(request.path_info)
+
+    return render(request, 'forum/single-series.html', {
+        'series': series,
+        'comments': comments,
+        'form': form,
+    })
 
 def singleMoviePage(request, slug):
-
     tmdb_token = config('TMDB_API_KEY')
-
     search_url = f"https://api.themoviedb.org/3/search/movie?query={slug}&language=tr-TR"
     headers = {
         "Authorization": f"Bearer {tmdb_token}",
         "accept": "application/json"
     }
+
     search_response = requests.get(search_url, headers=headers)
     if search_response.status_code != 200:
         raise Http404("Film bulunamadı.")
-
     search_results = search_response.json().get("results")
     if not search_results:
         raise Http404("Film bulunamadı.")
 
     movie_id = search_results[0]["id"]
-
     detail_url = f"https://api.themoviedb.org/3/movie/{movie_id}?language=tr-TR"
     detail_response = requests.get(detail_url, headers=headers)
     if detail_response.status_code != 200:
         raise Http404("Film detayı alınamadı.")
-
     movie = detail_response.json()
 
-    return render(request, 'forum/single-movie.html', {'movie': movie})
+    comments = Comment.objects.filter(content_type='movie', slug=slug, parent__isnull=True).order_by('-created_at')
+    form = CommentForm()
+
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.user = request.user
+            comment.content_type = 'movie'
+            comment.slug = slug
+            comment.save()
+            return redirect(request.path_info)
+
+    return render(request, 'forum/single-movie.html', {
+        'movie': movie,
+        'comments': comments,
+        'form': form,
+    })
 
 def singleGamePage(request, slug):
     game_api_key = config('RAWG_API_KEY')
@@ -197,41 +223,55 @@ def singleGamePage(request, slug):
         raise Http404("Game is not found.")
     game = response.json()
 
-    comments = GameComment.objects.filter(game_slug=slug, parent__isnull=True).order_by('-created_at')
-    form = GameCommentForm()
+    comments = Comment.objects.filter(content_type='game', slug=slug, parent__isnull=True).order_by('-created_at')
+    form = CommentForm()
 
     if request.method == 'POST':
-        form = GameCommentForm(request.POST)
+        form = CommentForm(request.POST)
         if form.is_valid():
             comment = form.save(commit=False)
             comment.user = request.user
-            comment.game_slug = slug
+            comment.content_type = 'game'
+            comment.slug = slug
             comment.save()
-            return redirect('singleGamePage', slug=slug)
+            return redirect(request.path_info)
 
     return render(request, 'forum/single-game.html', {
         'game': game,
         'comments': comments,
-        'form': form
+        'form': form,
     })
 
+
 def singleBookPage(request, slug):
-
     api_url = f"https://www.googleapis.com/books/v1/volumes?q=intitle:{slug}&langRestrict=tr"
-
     response = requests.get(api_url)
     if response.status_code != 200:
         raise Http404("Kitap bulunamadı.")
-
     data = response.json()
     items = data.get("items")
-
     if not items:
         raise Http404("Kitap bulunamadı.")
-
     book = items[0]["volumeInfo"]
 
-    return render(request, 'forum/single-book.html', {'book': book})
+    comments = Comment.objects.filter(content_type='book', slug=slug, parent__isnull=True).order_by('-created_at')
+    form = CommentForm()
+
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.user = request.user
+            comment.content_type = 'book'
+            comment.slug = slug
+            comment.save()
+            return redirect(request.path_info)
+
+    return render(request, 'forum/single-book.html', {
+        'book': book,
+        'comments': comments,
+        'form': form,
+    })
 
 def login_view(request):
     if request.method == 'POST':
