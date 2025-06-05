@@ -1,15 +1,15 @@
 from django import forms
-from .models import GameComment
+from .models import Comment
 
-class GameCommentForm(forms.ModelForm):
+class CommentForm(forms.ModelForm):
     parent = forms.ModelChoiceField(
-        queryset=GameComment.objects.all(), 
-        required=False, 
+        queryset=Comment.objects.all(),
+        required=False,
         widget=forms.HiddenInput(attrs={'id': 'id_parent'})
     )
 
     class Meta:
-        model = GameComment
+        model = Comment
         fields = ['content', 'parent']
         widgets = {
             'content': forms.Textarea(attrs={

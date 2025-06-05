@@ -1,0 +1,30 @@
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  $(function () {
+    const form = $('#comment-form');
+    const contentInput = $('#id_content');
+    const parentInput = $('#id_parent');
+    const successAlert = $('<div id="comment-success" class="alert alert-success mt-3">Yorum başarıyla eklendi!</div>').hide();
+    form.after(successAlert);
+
+    form.on('submit', function (e) {
+      e.preventDefault();
+
+      $.ajax({
+        type: 'POST',
+        url: '',
+        data: form.serialize(),
+        headers: { 'X-CSRFToken': $('[name=csrfmiddlewaretoken]').val() },
+        success: function (response) {
+          successAlert.fadeIn();
+          contentInput.val('');
+          parentInput.val('');
+          setTimeout(() => location.reload(), 1000);
+        },
+        error: function (xhr) {
+          alert('Yorum eklenirken bir hata oluştu.');
+        }
+      });
+    });
+  });
+</script>
