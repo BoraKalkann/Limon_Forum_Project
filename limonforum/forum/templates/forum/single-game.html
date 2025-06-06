@@ -39,15 +39,14 @@
         </div>
 
         <div class="pt-5 comment-wrap">
-          <h3 class="mb-5 heading">{{ comments.count }} Comments</h3>
-          <ul class="comment-list">
-            {% for comment in comments %}
-              {% if not comment.parent %}
-                {% include "forum/comment.html" with comment=comment %}
-              {% endif %}
-            {% endfor %}
-          </ul>
-
+            <h3 class="mb-5 heading">{{ comments.count }} Comments</h3>
+            <ul class="comment-list">
+              {% for comment in comments %}
+                {% if not comment.parent %}
+                  {% include "forum/comment.html" with comment=comment %}
+                {% endif %}
+              {% endfor %}
+            </ul>
           <div class="comment-form-wrap pt-5">
             <h3 class="mb-5">Leave a comment</h3>
             <form method="POST" class="p-5 bg-light" id="comment-form">
@@ -55,11 +54,12 @@
               {{ form.as_p }}
               <div class="form-group">
                 <input type="submit" value="Post Comment" class="btn btn-primary">
-                <!-- JavaScript buraya Cancel butonu ekleyecek -->
               </div>
             </form>
           </div>
+          {% include "forum/comment-ajax-script.html" %}
         </div>
+
       </div>
 
       <!-- END main-content -->
@@ -221,52 +221,6 @@
   });
 </script>
 
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-  const replyLinks = document.querySelectorAll('.reply');
-  const parentInput = document.getElementById('id_parent');
-  const commentForm = document.getElementById('comment-form');
-  const originalFormContainer = document.querySelector('.comment-form-wrap'); // Orijinal konum
-  const contentInput = document.getElementById('id_content');
 
-  // Cancel butonunu oluştur
-  const cancelBtn = document.createElement('button');
-  cancelBtn.type = 'button';
-  cancelBtn.textContent = 'İptal';
-  cancelBtn.classList.add('btn', 'btn-secondary', 'ml-2');
-  cancelBtn.style.marginLeft = '10px';
-
-  // Cancel tıklanınca formu eski yerine taşı ve parent sıfırla
-  cancelBtn.addEventListener('click', function () {
-    parentInput.value = '';
-    originalFormContainer.appendChild(commentForm);
-    if (cancelBtn.parentElement) {
-      cancelBtn.parentElement.removeChild(cancelBtn);
-    }
-  });
-
-  replyLinks.forEach(link => {
-    link.addEventListener('click', function(e) {
-      e.preventDefault();
-      const commentId = this.getAttribute('data-comment-id');
-      parentInput.value = commentId;
-
-      const commentBody = this.closest('.comment-body');
-
-      // Formu ilgili yorumun altına taşı
-      commentBody.appendChild(commentForm);
-
-      // Eğer daha önce cancel eklenmediyse ekle
-      if (!commentForm.contains(cancelBtn)) {
-        commentForm.querySelector('.form-group').appendChild(cancelBtn);
-      }
-
-      contentInput.focus();
-    });
-  });
-});
-
-
-</script>
 
 {% endblock %}

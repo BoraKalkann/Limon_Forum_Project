@@ -21,3 +21,67 @@
     </ul>
   {% endif %}
 </li>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+  const replyLinks = document.querySelectorAll('.reply');
+  const parentInput = document.getElementById('id_parent');
+  const commentForm = document.getElementById('comment-form');
+  const originalFormContainer = document.querySelector('.comment-form-wrap'); 
+  const contentInput = document.getElementById('id_content');
+  const commentSubmitButton = commentForm.querySelector('input[type="submit"]');
+
+  let isSubmitting = false;
+
+  let cancelBtn = document.createElement('button');
+  cancelBtn.type = 'button';
+  cancelBtn.textContent = 'Cancel';
+  cancelBtn.classList.add('btn', 'btn-secondary', 'ml-2');
+  cancelBtn.style.marginLeft = '10px';
+
+  cancelBtn.addEventListener('click', function () {
+    parentInput.value = '';
+    originalFormContainer.appendChild(commentForm);
+
+    // Cancel butonu DOM'dan tamamen kaldırılıyor
+    if (cancelBtn.parentElement) {
+      cancelBtn.parentElement.removeChild(cancelBtn);
+    }
+  });
+
+  replyLinks.forEach(link => {
+    link.addEventListener('click', function(e) {
+      e.preventDefault();
+
+      const commentId = this.getAttribute('data-comment-id');
+      parentInput.value = commentId;
+
+      const commentBody = this.closest('.comment-body');
+      commentBody.appendChild(commentForm);
+
+      // Önceki "iptal" butonu varsa kaldır
+      const existingCancel = commentForm.querySelector('.btn-secondary');
+      if (existingCancel) {
+        existingCancel.remove();
+      }
+
+      // Yeniden ekle
+      commentForm.querySelector('.form-group').appendChild(cancelBtn);
+
+      contentInput.focus();
+    });
+  });
+
+  commentForm.addEventListener('submit', function(e) {
+    if (isSubmitting) {
+      e.preventDefault();
+      return;
+    }
+
+    isSubmitting = true; 
+    commentSubmitButton.disabled = true;
+    commentSubmitButton.value = 'Gönderiliyor...';
+  });
+});
+
+</script>
