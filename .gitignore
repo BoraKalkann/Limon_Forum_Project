@@ -14,3 +14,6 @@ __pycache__/
 # IDE/editor klasörleri
 .vscode/
 .idea/
+
+# Profile Images
+uploads/

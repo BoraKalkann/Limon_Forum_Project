@@ -5,25 +5,103 @@
 
 <div class="section">
 	<div class="container">
-        <div class="row">
-            <div class="col-lg-4 mb-4 text-center aos-init aos-animate" data-aos="fade-up" data-aos-delay="0">
-				<img src="{% static 'assets/images/user.png' %}" alt="Image" class="img-fluid w-50 rounded-circle mb-3">
-				<h5 class="text-black mb-0">{{ request.user.first_name }} {{ request.user.last_name }}</h5>
-                <a href="mailto:{{ request.user.email }}">{{ request.user.email }}</a>
-                <p class="my-2">Merhaba! Benim adım {{ request.user.first_name }}!</p>
-			</div>
-            <div class="col-lg-8 px-lg-5">
-                <div class="row">
-                    <h2 class="mb-4">Forumlar</h2>
-                    <div class="post-entry-footer">
-                        <div class="text-center mt-5">
-                            <h3 class="">Henüz bir forum mevcut değil.</h3>
+      <div class="row">
+        <div class="col-lg-4 mb-4 text-center aos-init aos-animate" data-aos="fade-up" data-aos-delay="0">
+          {% if userProfile.image %}
+            <img src="{{ userProfile.image.url }}" alt="Image" class="img-fluid w-50 rounded-circle mb-3">
+          {% else %}
+            <img src="{% static 'assets/images/user.png' %}" alt="Image" class="img-fluid w-50 rounded-circle mb-3">
+          {% endif %}
+          <h5 class="text-black mb-0">{{ request.user.first_name }} {{ request.user.last_name }}</h5>
+          <a href="mailto:{{ request.user.email }}">{{ request.user.email }}</a>
+          {% if userProfile.bio %}
+            <p class="my-2">{{ userProfile.bio }}</p>
+          {% else %}
+            <p class="my-2">Merhaba! Benim adım {{ request.user.first_name }}!</p>
+          {% endif %}
+          <button type="button" class="btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#exampleModal">
+              Profili Güncelle
+          </button>
+			  </div>
+        <div class="col-lg-8 px-lg-5">
+          <div class="row">
+              <h2 class="mb-4">Forumlar</h2>
+              <div class="post-entry-footer">
+                {% if commented_games %}
+                  <div class="row">
+                    {% for game in commented_games %}
+                      <div class="col-md-12 col-lg-12 mb-4">
+                        <div class="card mb-3 shadow-sm" style="max-width: 100%;">
+                          <div class="row g-0">
+                            <div class="col-md-4">
+                              <a href="{% url 'singleGamePage' game.slug %}">
+                                <img src="{{ game.background_image }}" class="img-fluid rounded-start h-100 w-100" alt="{{ game.name }}" style="object-fit: cover;">
+                              </a>
+                            </div>
+                            <div class="col-md-8">
+                              <div class="card-body">
+                                <h5 class="card-title mb-1">
+                                  <a href="{% url 'singleGamePage' game.slug %}" class="text-decoration-none text-dark">
+                                    {{ game.name }}
+                                  </a>
+                                </h5>
+                                <p class="card-text mb-1">
+                                  <small class="text-muted">Yayın tarihi: {{ game.released }}</small>
+                                </p>
+                                <a href="{% url 'singleGamePage' game.slug %}" class="btn btn-sm btn-outline-primary mt-2">İncele</a>
+                              </div>
+                            </div>
+                          </div>
                         </div>
-                    </div>
-                </div>
-            </div>
+                      </div>
+                    {% endfor %}
+                  </div>
+                {% else %}
+                  <div class="text-center mt-5">
+                    <h3 class="">Henüz bir forum mevcut değil.</h3>
+                  </div>
+                {% endif %}
+              </div>
+          </div>
         </div>
+      </div>
 	</div>
+</div>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form method="POST" action="{% url 'accounts:profilePage' %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Profili Güncelle</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+              <label for="exampleFormControlInput1" class="form-label">Ad</label>
+              <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Ad giriniz" name="name" value="{{ request.user.first_name }}">
+          </div>
+          <div class="mb-3">
+              <label for="exampleFormControlInput1" class="form-label">Soyad</label>
+              <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Soyad giriniz" name="surname" value="{{ request.user.last_name }}">
+          </div>
+          <div class="mb-3">
+              <label for="exampleFormControlTextarea1" class="form-label">Biyografi</label>
+              <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="Biyografi giriniz" name="bio">{{ userProfile.bio }}</textarea>
+          </div>
+          <div class="mb-3">
+            <label for="formFile" class="form-label">Profil Fotoğrafı</label>
+            <input class="form-control" type="file" id="formFile" style="height: unset;" name="image">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">İptal</button>
+          <button type="submit" class="btn btn-success">Kaydet</button>
+        </div>
+      </form>
+    </div>
+  </div>
 </div>
 
 {% endblock %}
