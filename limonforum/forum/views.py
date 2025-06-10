@@ -3,6 +3,7 @@ import requests
 from django.http import Http404
 from decouple import config
 from .models import Comment
+from accounts.models import UserProfile
 from .forms import CommentForm
 import random
 import re
@@ -213,6 +214,7 @@ def singleGamePage(request, slug):
     game = response.json()
 
     comments = Comment.objects.filter(content_type='game', slug=slug, parent__isnull=True).order_by('-created_at')
+    userProfiles = UserProfile.objects.all()
     form = CommentForm()
 
     if request.method == 'POST':
@@ -228,6 +230,7 @@ def singleGamePage(request, slug):
     return render(request, 'forum/single-game.html', {
         'game': game,
         'comments': comments,
+        'userProfiles': userProfiles,
         'form': form,
     })
 
