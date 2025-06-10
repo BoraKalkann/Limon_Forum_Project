@@ -2,7 +2,11 @@
 
 <li class="comment">
   <div class="vcard">
-    <img src="{% static 'assets/images/user.png' %}" alt="User">
+    {% if comment.user.userprofile and comment.user.userprofile.image %}
+      <img src="{{ comment.user.userprofile.image.url }}" alt="User">
+    {% else %}
+      <img src="{% static 'assets/images/user.png' %}" alt="User">
+    {% endif %}
   </div>
   <div class="comment-body">
     <h3>{{ comment.user.first_name }} {{comment.user.last_name}}</h3>
