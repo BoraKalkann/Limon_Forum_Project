@@ -2,14 +2,14 @@
 
 <li class="comment">
   <div class="vcard">
-    <img src="{% static 'assets/images/person_1.jpg' %}" alt="User">
+    <img src="{% static 'assets/images/user.png' %}" alt="User">
   </div>
   <div class="comment-body">
-    <h3>{{ comment.user.username }}</h3>
+    <h3>{{ comment.user.first_name }} {{comment.user.last_name}}</h3>
     <div class="meta">{{ comment.created_at|date:"F j, Y H:i" }}</div>
     <p>{{ comment.content }}</p>
     <p>
-      <a href="#" class="reply rounded" data-comment-id="{{ comment.id }}">Reply</a>
+      <a href="#" class="reply rounded" data-comment-id="{{ comment.id }}">Cevapla</a>
     </p>
   </div>
 
