@@ -1,12 +1,9 @@
 from django.shortcuts import redirect, render
 import requests
 from django.http import Http404
-from django.contrib.auth.models import User
-from django.contrib.auth import authenticate,login
 from decouple import config
 from .models import Comment
 from .forms import CommentForm
-import pprint
 import random
 import re
 
@@ -26,15 +23,12 @@ def slugify(value):
 
 def homePage(request):
     game_api_key = config('RAWG_API_KEY')
-    # 20 popüler oyunu çekiyoruz
-    games_url = f"https://api.rawg.io/api/games?key={game_api_key}&page_size=20"
+    # 6 popüler oyunu çekiyoruz
+    games_url = f"https://api.rawg.io/api/games?key={game_api_key}&page_size=6"
     response = requests.get(games_url)
     if response.status_code != 200:
         raise Http404("Oyunlar bulunamadı.")
-    all_games = response.json().get('results', [])
-
-    # Rastgele 6 oyun seçiyoruz
-    games = random.sample(all_games, 6) if len(all_games) >= 6 else all_games
+    games = response.json().get('results', [])
 
     books_url = "https://www.googleapis.com/books/v1/volumes?q=subject:fiction&langRestrict=en&maxResults=20&orderBy=relevance"
     response = requests.get(books_url)
@@ -56,7 +50,6 @@ def homePage(request):
             info["slug"] = slugify(title)
             books.append(info)
 
-    pprint.pprint(books)
     tmdb_token = config('TMDB_API_KEY')
     movies_url = "https://api.themoviedb.org/3/movie/popular?language=en-US&page=1"
     headers = {
@@ -75,7 +68,7 @@ def homePage(request):
 
     # Sadece ilk 9 filmi alıyoruz ve slug ekliyoruz
     movies = []
-    for item in items[:9]:
+    for item in items[:6]:
         title = item.get("title", "")
         if title:
             item["slug"] = slugify(title)
@@ -86,7 +79,6 @@ def homePage(request):
                 item["poster_url"] = ""  # veya varsayılan bir görsel yolu
             movies.append(item)
 
-    pprint.pprint(movies)
 
     tmdb_token = config('TMDB_API_KEY')
     series_url = "https://api.themoviedb.org/3/tv/popular?language=en-US&page=1"
@@ -106,7 +98,7 @@ def homePage(request):
 
     # Sadece ilk 4 diziyi alıyoruz ve slug ekliyoruz
     series = []
-    for item in items[:4]:
+    for item in items[:6]:
         name = item.get("name", "")
         if name:
             item["slug"] = slugify(name)
@@ -120,9 +112,6 @@ def homePage(request):
 
 def aboutPage(request):
     return render(request, 'forum/about.html')
-
-def blogPage(request):
-    return render(request, 'forum/blog.html')
 
 def categoryPage(request):
     return render(request, 'forum/category.html')
@@ -272,36 +261,3 @@ def singleBookPage(request, slug):
         'comments': comments,
         'form': form,
     })
-
-def login_view(request):
-    if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
-        
-        user = authenticate(request, username = username, password = password)
-    
-        if user is not None:
-            login(request,user)
-            return redirect('homePage')
-        
-    return render(request, 'forum/login.html')   
- 
-def register_view(request):
-    if request.method == 'POST':
-        first_name = request.POST['first_name']
-        last_name = request.POST['last_name']
-        username = request.POST['username']
-        email = request.POST['email']
-        password = request.POST['password1']
-
-        user = User.objects.create_user(
-            first_name = first_name,
-            last_name = last_name,
-            username = username,
-            email = email,
-            password = password,
-        )
-        user.save()
-        return redirect('loginPage')  
-    return render(request, 'forum/register.html')
-

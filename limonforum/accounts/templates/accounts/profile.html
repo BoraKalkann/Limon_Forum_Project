@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="section">
+	<div class="container">
+        <div class="row">
+            <div class="col-lg-4 mb-4 text-center aos-init aos-animate" data-aos="fade-up" data-aos-delay="0">
+				<img src="{% static 'assets/images/user.png' %}" alt="Image" class="img-fluid w-50 rounded-circle mb-3">
+				<h5 class="text-black mb-0">{{ request.user.first_name }} {{ request.user.last_name }}</h5>
+                <a href="mailto:{{ request.user.email }}">{{ request.user.email }}</a>
+                <p class="my-2">Merhaba! Benim adım {{ request.user.first_name }}!</p>
+			</div>
+            <div class="col-lg-8 px-lg-5">
+                <div class="row">
+                    <h2 class="mb-4">Forumlar</h2>
+                    <div class="post-entry-footer">
+                        <div class="text-center mt-5">
+                            <h3 class="">Henüz bir forum mevcut değil.</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+	</div>
+</div>
+
+{% endblock %}

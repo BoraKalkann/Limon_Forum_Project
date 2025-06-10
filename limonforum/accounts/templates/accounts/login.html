@@ -3,14 +3,14 @@
 
 {% block content %}
 
-      <div class="d-flex justify-content-center align-items-center min-vh-100">
-    <div class="card shadow-lg p-5" style="width: 100%; max-width: 1000px;">
+  <div class="d-flex justify-content-center align-items-center min-vh-100 p-3">
+    <div class="card shadow-lg p-5" style="width: 100%; max-width: 750px;">
       <h2 class="text-center mb-4">Kullanıcı Girişi  <span class="text-primary">LimonForum</span></h2>
 
       <form method='POST'>
         {% csrf_token %}
         <div class="mb-3">
-          <label for="username" class="form-label">Kullanıcı İsmi</label>
+          <label for="username" class="form-label">Kullanıcı Adı</label>
           <input type="text" id="username" name="username" class="form-control" placeholder="Kullanıcı adınızı girin">
         </div>
         <div class="mb-4">
@@ -21,7 +21,7 @@
       </form>
 
       <div class="text-center mt-3">
-        <small class="text-muted">Hesabınız yok mu? <a href="{% url 'registerPage' %}">Kaydol</a></small>
+        <small class="text-muted">Hesabınız yok mu? <a href="{% url 'accounts:registerPage' %}">Kayıt Ol</a></small>
       </div>
     </div>
   </div>
