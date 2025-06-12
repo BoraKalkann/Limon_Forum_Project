@@ -12,12 +12,12 @@
                         <ul class="js-clone-nav d-none d-lg-inline-block text-start site-menu mx-auto">
                             <li class="active"><a href="{% url 'homePage' %}">Ana Sayfa</a></li>
                             <li class="has-children">
-                                <a href="{% url 'categoryPage' %}">Kategoriler</a>
+                                <a href="{% url 'homePage' %}">Kategoriler</a>
                                 <ul class="dropdown">
-                                    <li><a href="{% url 'categoryPage' %}">Oyunlar</a></li>
-                                    <li><a href="{% url 'categoryPage' %}">Filmler</a></li>
-                                    <li><a href="{% url 'categoryPage' %}">Diziler</a></li>
-                                    <li><a href="{% url 'categoryPage' %}">Kitaplar</a></li>
+                                    <li><a href="{% url 'GamesCategoryPage' %}">Oyunlar</a></li>
+                                    <li><a href="{% url 'MoviesCategoryPage' %}">Filmler</a></li>
+                                    <li><a href="{% url 'SeriesCategoryPage' %}">Diziler</a></li>
+                                    <li><a href="{% url 'BooksCategoryPage' %}">Kitaplar</a></li>
                                 </ul>
                             </li>
                             <li><a href="{% url 'aboutPage' %}">Hakkımızda</a></li>

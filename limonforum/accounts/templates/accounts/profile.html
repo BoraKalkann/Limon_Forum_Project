@@ -25,43 +25,127 @@
 			  </div>
         <div class="col-lg-8 px-lg-5">
           <div class="row">
-              <h2 class="mb-4">Forumlar</h2>
-              <div class="post-entry-footer">
-                {% if commented_games %}
-                  <div class="row">
-                    {% for game in commented_games %}
-                      <div class="col-md-12 col-lg-12 mb-4">
-                        <div class="card mb-3 shadow-sm" style="max-width: 100%;">
-                          <div class="row g-0">
-                            <div class="col-md-4">
-                              <a href="{% url 'singleGamePage' game.slug %}">
-                                <img src="{{ game.background_image }}" class="img-fluid rounded-start h-100 w-100" alt="{{ game.name }}" style="object-fit: cover;">
-                              </a>
-                            </div>
-                            <div class="col-md-8">
-                              <div class="card-body">
-                                <h5 class="card-title mb-1">
-                                  <a href="{% url 'singleGamePage' game.slug %}" class="text-decoration-none text-dark">
-                                    {{ game.name }}
-                                  </a>
-                                </h5>
-                                <p class="card-text mb-1">
-                                  <small class="text-muted">Yayın tarihi: {{ game.released }}</small>
-                                </p>
-                                <a href="{% url 'singleGamePage' game.slug %}" class="btn btn-sm btn-outline-primary mt-2">İncele</a>
-                              </div>
+            <h2 class="mb-4">Forumlar</h2>
+            <div class="post-entry-footer">
+
+              <!-- Oyunlar -->
+              <h3 class="mb-3 mt-4">Yorum Yapılan Oyunlar</h3>
+              {% if games %}
+                <div class="row">
+                  {% for game in games %}
+                    <div class="col-md-6 mb-4">
+                      <div class="card mb-3 shadow-sm" style="max-width: 100%;">
+                        <div class="row g-0">
+                          <div class="col-md-4">
+                            <a href="{% url 'singleGamePage' game.slug %}" style="aspect-ratio: 5/3">
+                              <img src="{{ game.thumbnail }}" class="img-fluid rounded-start h-100 w-100" alt="{{ game.title }}" style="object-fit: cover;">
+                            </a>
+                          </div>
+                          <div class="col-md-8">
+                            <div class="card-body">
+                              <h5 class="card-title mb-1">
+                                <a href="{% url 'singleGamePage' game.slug %}" class="text-decoration-none text-dark">
+                                  {{ game.title }}
+                                </a>
+                              </h5>
+                              <a href="{% url 'singleGamePage' game.slug %}" class="btn btn-sm btn-outline-primary mt-2">İncele</a>
                             </div>
                           </div>
                         </div>
                       </div>
-                    {% endfor %}
-                  </div>
-                {% else %}
-                  <div class="text-center mt-5">
-                    <h3 class="">Henüz bir forum mevcut değil.</h3>
-                  </div>
-                {% endif %}
-              </div>
+                    </div>
+                  {% endfor %}
+                </div>
+              {% else %}
+                <p>Henüz oyun forumuna yorum yapmadınız.</p>
+              {% endif %}
+
+              <!-- Filmler -->
+              <h3 class="mb-3 mt-4">Yorum Yapılan Filmler</h3>
+              {% if movies %}
+                <div class="row">
+                  {% for movie in movies %}
+                    <div class="col-md-6 mb-4">
+                      <div class="card shadow-sm">
+                        <div class="row g-0">
+                          <div class="col-md-4">
+                            <a href="{% url 'singleMoviePage' movie.slug %}">
+                              <img src="{{ movie.poster_url }}" class="img-fluid rounded-start" alt="{{ movie.title }}">
+                            </a>
+                          </div>
+                          <div class="col-md-8">
+                            <div class="card-body">
+                              <h5 class="card-title">{{ movie.title }}</h5>
+                              <a href="{% url 'singleMoviePage' movie.slug %}" class="btn btn-sm btn-outline-primary">İncele</a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  {% endfor %}
+                </div>
+              {% else %}
+                <p>Henüz film forumuna yorum yapmadınız.</p>
+              {% endif %}
+
+              <!-- Diziler -->
+              <h3 class="mb-3 mt-4">Yorum Yapılan Diziler</h3>
+              {% if series %}
+                <div class="row">
+                  {% for serie in series %}
+                    <div class="col-md-6 mb-4">
+                      <div class="card shadow-sm">
+                        <div class="row g-0">
+                          <div class="col-md-4">
+                            <a href="{% url 'singleSeriesPage' serie.slug %}">
+                              <img src="{{ serie.poster_url }}" class="img-fluid rounded-start" alt="{{ serie.title }}">
+                            </a>
+                          </div>
+                          <div class="col-md-8">
+                            <div class="card-body">
+                              <h5 class="card-title">{{ serie.title }}</h5>
+                              <a href="{% url 'singleSeriesPage' serie.slug %}" class="btn btn-sm btn-outline-primary">İncele</a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  {% endfor %}
+                </div>
+              {% else %}
+                <p>Henüz dizi forumuna yorum yapmadınız.</p>  
+              {% endif %}
+
+              <!-- Kitaplar -->
+              <h3 class="mb-3 mt-4">Yorum Yapılan Kitaplar</h3>
+              {% if books %}
+                <div class="row">
+                  {% for book in books %}
+                    <div class="col-md-6 mb-4">
+                      <div class="card shadow-sm">
+                        <div class="row g-0">
+                          <div class="col-md-4">
+                            <a href="{% url 'singleBookPage' book.slug %}">
+                              <img src="{{ book.thumbnail }}" class="img-fluid rounded-start" alt="{{ book.title }}">
+                            </a>
+                          </div>
+                          <div class="col-md-8">
+                            <div class="card-body">
+                              <h5 class="card-title">{{ book.title }}</h5>
+                              <p class="card-text"><small class="text-muted">Yayın tarihi: {{ book.publishedDate }}</small></p>
+                              <a href="{% url 'singleBookPage' book.slug %}" class="btn btn-sm btn-outline-primary">İncele</a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  {% endfor %}
+                </div>
+              {% else %}
+                <p>Henüz kitap forumuna yorum yapmadınız.</p>
+              {% endif %}
+
+            </div>
           </div>
         </div>
       </div>

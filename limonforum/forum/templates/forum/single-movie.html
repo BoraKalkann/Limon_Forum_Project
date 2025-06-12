@@ -69,54 +69,35 @@
       <div class="col-md-12 col-lg-4 sidebar">
         <!-- END sidebar-box -->
         <div class="sidebar-box">
-          <h3 class="heading">Popüler Forumlar</h3>
+          <h3 class="heading">Öne Çıkanlar</h3>
           <div class="post-entry-sidebar">
             <ul>
+              {% for popular in movies|slice:":5" %}
               <li>
-                <a href="">
-                  <img src="{% static "assets/images/img_1_sq.jpg" %}" alt="Image placeholder" class="me-4 rounded">
+                <a href="{% url 'singleMoviePage' slug=popular.title|slugify %}">
+                  <img src="{{ popular.poster_full|default:'/static/assets/images/default_movie.jpg' }}" alt="{{ popular.title }}" class="me-4 rounded">
                   <div class="text">
-                    <h4>There’s a Cool New Way for Men to Wear Socks and Sandals</h4>
+                    <h4>{{ popular.title|truncatechars:40 }}</h4>
                     <div class="post-meta">
-                      <span class="mr-2">March 15, 2018 </span>
+                      <span class="mr-2">{{ popular.release_date }}</span>
                     </div>
                   </div>
                 </a>
               </li>
-              <li>
-                <a href="">
-                  <img src="{% static "assets/images/img_2_sq.jpg" %}" alt="Image placeholder" class="me-4 rounded">
-                  <div class="text">
-                    <h4>There’s a Cool New Way for Men to Wear Socks and Sandals</h4>
-                    <div class="post-meta">
-                      <span class="mr-2">March 15, 2018 </span>
-                    </div>
-                  </div>
-                </a>
-              </li>
-              <li>
-                <a href="">
-                  <img src="{% static "assets/images/img_3_sq.jpg" %}" alt="Image placeholder" class="me-4 rounded">
-                  <div class="text">
-                    <h4>There’s a Cool New Way for Men to Wear Socks and Sandals</h4>
-                    <div class="post-meta">
-                      <span class="mr-2">March 15, 2018 </span>
-                    </div>
-                  </div>
-                </a>
-              </li>
+              {% endfor %}
             </ul>
           </div>
         </div>
+
         <!-- END sidebar-box -->
 
         <div class="sidebar-box">
           <h3 class="heading">Kategoriler</h3>
           <ul class="categories">
-            <li><a href="#">Oyunlar</a></li>
-            <li><a href="#">Filmler</a></li>
-            <li><a href="#">Diziler</a></li>
-            <li><a href="#">Kitaplar</a></li>
+            <li><a href="{% url 'GamesCategoryPage' %}">Oyunlar</a></li>
+            <li><a href="{% url 'MoviesCategoryPage' %}">Filmler</a></li>
+            <li><a href="{% url 'SeriesCategoryPage' %}">Diziler</a></li>
+            <li><a href="{% url 'BooksCategoryPage' %}">Kitaplar</a></li>
           </ul>
         </div>
         <!-- END sidebar-box -->
@@ -127,61 +108,6 @@
   </div>
 </section>
 
-
-<!-- Start posts-entry -->
-<section class="section posts-entry posts-entry-sm bg-light">
-  <div class="container">
-    <div class="row mb-4">
-      <div class="col-12 text-uppercase text-black">Benzer Forumlar</div>
-    </div>
-    <div class="row">
-      <div class="col-md-6 col-lg-3">
-        <div class="blog-entry">
-          <a href="{% url "singleGamePage" slug='valorant' %}" class="img-link">
-            <img src="{% static "assets/images/img_1_horizontal.jpg" %}" alt="Image" class="img-fluid">
-          </a>
-          <span class="date">Apr. 14th, 2022</span>
-          <h2><a href="{% url "singleGamePage" slug='valorant' %}">Thought you loved Python? Wait until you meet Rust</a></h2>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-          <p><a href="#" class="read-more">Continue Reading</a></p>
-        </div>
-      </div>
-      <div class="col-md-6 col-lg-3">
-        <div class="blog-entry">
-          <a href="{% url "singleGamePage" slug='valorant' %}" class="img-link">
-            <img src="{% static "assets/images/img_2_horizontal.jpg" %}" alt="Image" class="img-fluid">
-          </a>
-          <span class="date">Apr. 14th, 2022</span>
-          <h2><a href="{% url "singleGamePage" slug='valorant' %}">Startup vs corporate: What job suits you best?</a></h2>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-          <p><a href="#" class="read-more">Continue Reading</a></p>
-        </div>
-      </div>
-      <div class="col-md-6 col-lg-3">
-        <div class="blog-entry">
-          <a href="{% url "singleGamePage" slug='valorant' %}" class="img-link">
-            <img src="{% static "assets/images/img_3_horizontal.jpg" %}" alt="Image" class="img-fluid">
-          </a>
-          <span class="date">Apr. 14th, 2022</span>
-          <h2><a href="{% url "singleGamePage" slug='valorant' %}">UK sees highest inflation in 30 years</a></h2>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-          <p><a href="#" class="read-more">Continue Reading</a></p>
-        </div>
-      </div>
-      <div class="col-md-6 col-lg-3">
-        <div class="blog-entry">
-          <a href="{% url "singleGamePage" slug='valorant' %}" class="img-link">
-            <img src="{% static "assets/images/img_4_horizontal.jpg" %}" alt="Image" class="img-fluid">
-          </a>
-          <span class="date">Apr. 14th, 2022</span>
-          <h2><a href="{% url "singleGamePage" slug='valorant' %}">Don’t assume your user data in the cloud is safe</a></h2>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-          <p><a href="#" class="read-more">Continue Reading</a></p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
 <script>
   fetch('https://api.rawg.io/api/games?key=5f0e7622a1f344d6ae8701e0dcf06538')
   .then(response => response.json())
