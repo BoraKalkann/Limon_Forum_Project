@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="section search-result-wrap">
+	<div class="container">
+		<div class="row">
+			<div class="col-12">
+				<div class="heading">Oyunlar</div>
+			</div>
+		</div>
+		<div class="row posts-entry">
+			<div class="col-lg-8">
+
+				{% for game in games_page %}
+				<div class="blog-entry d-flex blog-entry-search-item">
+					<a href="{% url 'singleGamePage' slug=game.slug %}" class="img-link me-4">
+						<img src="{{ game.background_image }}" alt="{{ game.name }}" class="img-fluid">
+					</a>
+					<div>
+						<span class="date">
+							{{ game.released|default:"Bilinmeyen Tarih" }} &bullet;
+							<a href="#">Puan: {{ game.rating }}</a>
+						</span>
+						<h2>
+							<a href="{% url 'singleGamePage' slug=game.slug %}">{{ game.name }}</a>
+						</h2>
+						<p>{{ game.slug|title }} hakkında daha fazla bilgi için detaylara göz at.</p>
+						<p>
+							<a href="{% url 'singleGamePage' slug=game.slug %}" class="btn btn-sm btn-outline-primary">
+								İncele
+							</a>
+						</p>
+					</div>
+				</div>
+				{% endfor %}
+
+				<div class="row text-start pt-5 border-top">
+					<div class="col-md-12">
+						<div class="custom-pagination">
+							{% if games_page.has_previous %}
+								<a href="?page={{ games_page.previous_page_number }}">←</a>
+							{% endif %}
+
+							{% for num in games_page.paginator.page_range %}
+								{% if games_page.number == num %}
+									<span>{{ num }}</span>
+								{% elif num > games_page.number|add:-3 and num < games_page.number|add:3 %}
+									<a href="?page={{ num }}">{{ num }}</a>
+								{% endif %}
+							{% endfor %}
+
+							{% if games_page.has_next %}
+								<a href="?page={{ games_page.next_page_number }}">→</a>
+							{% endif %}
+						</div>
+					</div>
+				</div>
+
+			</div>
+
+			<div class="col-lg-4 sidebar">
+				<div class="sidebar-box search-form-wrap mb-4">
+					<form action="" method="get" class="sidebar-search-form">
+						<input type="text" name="s" class="form-control" value="{{ query }}" placeholder="Oyun ara...">
+					</form>
+				</div>
+
+				<div class="sidebar-box">
+					<h3 class="heading">Öne Çıkanlar</h3>
+					<div class="post-entry-sidebar">
+						<ul>
+							{% for popular in games|slice:":5" %}
+							<li>
+								<a href="{% url 'singleGamePage' slug=popular.slug %}">
+									<img src="{{ popular.background_image|default:'/static/assets/images/default_game.jpg' }}" alt="{{ popular.name }}" class="me-4 rounded">
+									<div class="text">
+										<h4>{{ popular.name|truncatechars:40 }}</h4>
+										<div class="post-meta">
+											<span class="mr-2">{{ popular.released }}</span>
+										</div>
+									</div>
+								</a>
+							</li>
+							{% endfor %}
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+{% endblock %}
